@@ -11,7 +11,7 @@ public abstract class AutoEntity extends Entity {
         super(x, y);
 
         timer = new Timer();
-        timer.scheduleAtFixedRate(task, delay, period);
+        timer.scheduleAtFixedRate(new ScheduleTask(), delay, period);
     }
 
     class ScheduleTask extends TimerTask {
