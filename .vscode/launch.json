@@ -1,0 +1,12 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - App",
+            "request": "launch",
+            "vmArgs": "--module-path lib --add-modules javafx.base,javafx.fxml,javafx.media,javafx.controls,javafx.graphics,javafx.swing,javafx.web",
+            "mainClass": "App",
+            "projectName": "projet_space_invaders"
+        }
+    ]
+}
