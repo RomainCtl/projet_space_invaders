@@ -7,10 +7,20 @@ public abstract class AutoEntity extends Entity {
 
     private Timer timer;
 
-    public AutoEntity(double x, double y, TimerTask task, int delay, int period) {
+    public AutoEntity(double x, double y, int delay, int period) {
         super(x, y);
 
         timer = new Timer();
         timer.scheduleAtFixedRate(task, delay, period);
     }
+
+    class ScheduleTask extends TimerTask {
+        public void run() {
+            move();
+            setChanged();
+            notifyObservers();
+        }
+    }
+
+    public abstract void move();
 }

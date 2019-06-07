@@ -1,8 +1,10 @@
 package model;
 
+import java.awt.Graphics;
 import java.awt.Image;
+import java.util.Observable;
 
-public abstract class Entity {
+public abstract class Entity extends Observable {
 
     private double posx, posy;
     private String src_img;
@@ -17,4 +19,6 @@ public abstract class Entity {
     public void goRight() { this.x += 1; }
     public void goBottom() { this.y -= 1; }
     public void goTop() { this.y += 1; }
+
+    public abstract void paint(Graphics g);
 }
