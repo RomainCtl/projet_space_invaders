@@ -1,6 +1,6 @@
 # Projet Java fin de Première année
 
-> Projet build with Java 11 (openjdk 11.0.3) et JavaFX
+> Projet build with Java 11 (openjdk 11.0.3) et Swing
 
 ## Compile & Run
 
@@ -19,7 +19,6 @@ projet_space_invaders/
 ├── assets/
 ├── bin/
 ├── doc/
-├── lib/
 ├── src/
 │   └── App.java
 ├── .classpath
