@@ -1,7 +1,5 @@
 package model;
 
-import java.awt.Graphics;
-
 public class Bullet extends AutoEntity {
 
     private String image_path = "../assets/shot.gif";
@@ -17,10 +15,5 @@ public class Bullet extends AutoEntity {
     public void move() {
         if (this.posy + this.height >= 0)
             this.posy -= 3;
-    }
-
-    @Override
-    public void paint(Graphics g) {
-        //
     }
 }

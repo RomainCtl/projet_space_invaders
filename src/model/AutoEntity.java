@@ -17,9 +17,11 @@ public abstract class AutoEntity extends Entity {
 
     class ScheduleTask extends TimerTask {
         public void run() {
-            move();
-            setChanged();
-            notifyObservers();
+            if (status == Entity.IN_GAME) {
+                move();
+                setChanged();
+                notifyObservers();
+            }
         }
     }
 

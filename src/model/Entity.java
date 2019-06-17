@@ -9,6 +9,11 @@ public abstract class Entity extends Observable {
     protected static Boolean LEFT = true;
     protected static Boolean RIGHT = false;
 
+    protected static Boolean PAUSE = true;
+    protected static Boolean IN_GAME = false;
+
+    protected boolean status;
+
     protected double posx;
 	protected double posy;
     protected String src_img;
@@ -20,9 +25,9 @@ public abstract class Entity extends Observable {
         this.posy = y;
         this.width = w;
         this.height = h;
-    }
 
-    public abstract void paint(Graphics g);
+        this.status = Entity.IN_GAME;
+    }
 
     public double getX() {
         return this.posx;

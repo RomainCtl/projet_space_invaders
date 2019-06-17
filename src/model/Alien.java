@@ -1,7 +1,5 @@
 package model;
 
-import java.awt.Graphics;
-
 public class Alien extends AutoEntity {
 
     private String image_path = "../assets/alien.gif";
@@ -11,6 +9,7 @@ public class Alien extends AutoEntity {
 
     public Alien(double x, double y) {
         super(x, y, Alien.w, Alien.h, 100, 10);
+        this.direction = Entity.RIGHT;
     }
 
     @Override
@@ -28,10 +27,5 @@ public class Alien extends AutoEntity {
             } else
                 this.posx += 1;
         }
-    }
-
-    @Override
-    public void paint(Graphics g) {
-        //
     }
 }

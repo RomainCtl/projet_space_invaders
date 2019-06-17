@@ -1,7 +1,5 @@
 package model;
 
-import java.awt.Graphics;
-
 public class Spaceship extends Entity {
 
     private String image_path = "../assets/ship.gif";
@@ -14,17 +12,14 @@ public class Spaceship extends Entity {
     }
 
     public void move(Boolean direction) {
-        if (direction == Entity.LEFT) {
-            if (this.posx > 0)
-                this.posx -= 2;
-        } else {
-            if (this.posx + this.width < 700) // FIXME TOO (panel size)
-                this.posx += 2;
+        if (status == Entity.IN_GAME) {
+            if (direction == Entity.LEFT) {
+                if (this.posx > 0)
+                    this.posx -= 2;
+            } else {
+                if (this.posx + this.width < 700) // FIXME TOO (panel size)
+                    this.posx += 2;
+            }
         }
-    }
-
-    @Override
-    public void paint(Graphics g) {
-        //
     }
 }
