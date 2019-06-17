@@ -1,7 +1,7 @@
 package view;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
@@ -35,16 +35,15 @@ public class MainInterface extends JFrame implements Observer {
     public MainInterface(SpaceInvader instance) {
         this.controller = instance;
 
-        this.setLayout(new FlowLayout());
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("Space Invader");
-
         this.menu_bar = new JMenuBar();
         this.setMenuBar();
 
         this.initInterface();
 
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setTitle("Space Invader");
         this.setBounds(100, 100, 750, 600);
+        this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setVisible(true);
     }
@@ -52,7 +51,7 @@ public class MainInterface extends JFrame implements Observer {
     private void initInterface() {
         // game area
         this.game_area = new JPanel();
-        this.game_area.setBackground(new Color(0, 0, 0));
+        this.game_area.setBackground(Color.BLACK);
         this.game_area.setSize(MainInterface.GAME_W, MainInterface.GAME_H);
 
         // TODO
