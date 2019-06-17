@@ -13,11 +13,21 @@ public abstract class Entity extends Observable {
 	protected double posy;
     protected String src_img;
     protected Image sprite;
+    protected int width, height;
 
-    public Entity(double x, double y){
+    public Entity(double x, double y, int w, int h){
         this.posx = x;
-        this.poxy = y;
+        this.posy = y;
+        this.width = w;
+        this.height = h;
     }
 
     public abstract void paint(Graphics g);
+
+    public double getX() {
+        return this.posx;
+    }
+    public double getY() {
+        return this.posy;
+    }
 }
