@@ -1,9 +1,10 @@
 package view;
 
 import java.awt.Color;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -15,10 +16,12 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import controller.SpaceInvader;
+import model.Entity;
 import model.Game;
 
-public class MainInterface extends JFrame implements Observer {
+public class MainInterface extends JFrame implements Observer, KeyListener {
 
+    private static final long serialVersionUID = 4551724583146448623L;
     private JPanel game_area;
     private JPanel info_area;
     private JMenuBar menu_bar;
@@ -115,5 +118,24 @@ public class MainInterface extends JFrame implements Observer {
         this.nb_kill.setText("Kill: "+kill);
         this.nb_bullet.setText("Bullet send: "+bullet);
         this.ratio.setText("Ratio: "+ratio);
+    }
+
+    // Key events
+    @Override
+    public void keyPressed(KeyEvent arg0) { }
+
+    @Override
+    public void keyReleased(KeyEvent arg0) { }
+
+    @Override
+    public void keyTyped(KeyEvent evt) {
+        if (evt.getKeyChar() == KeyEvent.VK_P)
+            this.controller.setPause();
+        if (evt.getKeyChar() == KeyEvent.VK_SPACE)
+            this.controller.sendBullet();
+        if (evt.getKeyChar() == KeyEvent.VK_RIGHT)
+            this.controller.shipMove(Entity.RIGHT);
+        if (evt.getKeyChar() == KeyEvent.VK_LEFT)
+            this.controller.shipMove(Entity.LEFT);
     }
 }

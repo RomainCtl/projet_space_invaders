@@ -4,8 +4,8 @@ import java.awt.Image;
 
 public abstract class Entity {
 
-    protected static Boolean LEFT = true;
-    protected static Boolean RIGHT = false;
+    public static Boolean LEFT = true;
+    public static Boolean RIGHT = false;
 
     protected boolean status;
 
