@@ -1,16 +1,11 @@
 package model;
 
-import java.awt.Graphics;
 import java.awt.Image;
-import java.util.Observable;
 
-public abstract class Entity extends Observable {
+public abstract class Entity {
 
     protected static Boolean LEFT = true;
     protected static Boolean RIGHT = false;
-
-    protected static Boolean PAUSE = true;
-    protected static Boolean IN_GAME = false;
 
     protected boolean status;
 
@@ -25,8 +20,6 @@ public abstract class Entity extends Observable {
         this.posy = y;
         this.width = w;
         this.height = h;
-
-        this.status = Entity.IN_GAME;
     }
 
     public double getX() {

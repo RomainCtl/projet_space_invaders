@@ -1,17 +1,20 @@
 package view;
 
-import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+import controller.SpaceInvader;
 import model.Game;
 
 public class MainInterface extends JFrame implements Observer {
@@ -20,15 +23,19 @@ public class MainInterface extends JFrame implements Observer {
     private JPanel info_area;
     private JMenuBar menu_bar;
 
+    private SpaceInvader controller;
+
     private JLabel nb_kill;
     private JLabel nb_bullet;
     private JLabel ratio;
 
-    private static int GAME_W = 700;
-    private static int GAME_H = 700;
+    public static int GAME_W = 600;
+    public static int GAME_H = 600;
 
-    public MainInterface() {
-        this.setLayout(new BorderLayout());
+    public MainInterface(SpaceInvader instance) {
+        this.controller = instance;
+
+        this.setLayout(new FlowLayout());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Space Invader");
 
@@ -37,22 +44,35 @@ public class MainInterface extends JFrame implements Observer {
 
         this.initInterface();
 
-        this.setBounds(100, 100, 1000, 750);
+        this.setBounds(100, 100, 750, 600);
         this.setResizable(false);
         this.setVisible(true);
     }
 
     private void initInterface() {
+        // game area
         this.game_area = new JPanel();
-        this.info_area = new JPanel();
+        this.game_area.setBackground(new Color(0, 0, 0));
+        this.game_area.setSize(MainInterface.GAME_W, MainInterface.GAME_H);
 
         // TODO
+
+        this.add(this.game_area);
+
+        // informations area
+        this.info_area = new JPanel();
+        this.info_area.setLayout(new BoxLayout(this.info_area, BoxLayout.Y_AXIS));
+        this.info_area.setSize(150, 600);
+
         this.nb_kill = new JLabel("Kill: 0");
         this.nb_bullet = new JLabel("Bullet send: 0");
         this.ratio = new JLabel("Ratio: 1");
 
-        this.add(this.game_area, BorderLayout.WEST);
-        this.add(this.info_area, BorderLayout.EAST);
+        this.info_area.add(this.nb_kill);
+        this.info_area.add(this.nb_bullet);
+        this.info_area.add(this.ratio);
+
+        this.add(this.info_area);
     }
 
     private void setMenuBar() {
@@ -60,8 +80,8 @@ public class MainInterface extends JFrame implements Observer {
         new_game.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent ae) {
-                // TODO send to controler (reinit Game()) ...
-                //initInterface();
+                controller.restart();
+                initInterface();
             }
         });
         this.menu_bar.add(new_game);
@@ -70,7 +90,7 @@ public class MainInterface extends JFrame implements Observer {
         pause.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent ae) {
-                // TODO send to controler pause ...
+                controller.setPause();
             }
         });
 		this.menu_bar.add(pause);
@@ -82,7 +102,9 @@ public class MainInterface extends JFrame implements Observer {
                 System.exit(0);
             }
         });
-		this.menu_bar.add(exit);
+        this.menu_bar.add(exit);
+
+        this.setJMenuBar(this.menu_bar);
     }
 
     @Override
@@ -94,7 +116,5 @@ public class MainInterface extends JFrame implements Observer {
         this.nb_kill.setText("Kill: "+kill);
         this.nb_bullet.setText("Bullet send: "+bullet);
         this.ratio.setText("Ratio: "+ratio);
-
-        // Other ?
     }
 }

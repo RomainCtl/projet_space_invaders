@@ -1,5 +1,8 @@
 package model;
 
+import controller.SpaceInvader;
+import view.MainInterface;
+
 public class Spaceship extends Entity {
 
     private String image_path = "../assets/ship.gif";
@@ -12,12 +15,12 @@ public class Spaceship extends Entity {
     }
 
     public void move(Boolean direction) {
-        if (status == Entity.IN_GAME) {
+        if (status == SpaceInvader.IN_GAME) {
             if (direction == Entity.LEFT) {
                 if (this.posx > 0)
                     this.posx -= 2;
             } else {
-                if (this.posx + this.width < 700) // FIXME TOO (panel size)
+                if (this.posx + this.width < MainInterface.GAME_W)
                     this.posx += 2;
             }
         }

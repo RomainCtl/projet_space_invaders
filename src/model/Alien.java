@@ -1,5 +1,7 @@
 package model;
 
+import view.MainInterface;
+
 public class Alien extends AutoEntity {
 
     private String image_path = "../assets/alien.gif";
@@ -21,7 +23,7 @@ public class Alien extends AutoEntity {
             } else
                 this.posx -= 1;
         } else {
-            if (this.posx + this.width >= 700) { // FIXME Get panel size
+            if (this.posx + this.width >= MainInterface.GAME_W) {
                 this.posy -= this.height;
                 this.direction = !this.direction;
             } else

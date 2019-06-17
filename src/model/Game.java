@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.Observable;
 
+import view.MainInterface;
+
 public class Game extends Observable {
 
     private ArrayList<Alien> aliens;
@@ -13,13 +15,13 @@ public class Game extends Observable {
     private int nb_kill;
 
     public Game(int nb_alien){
-        spaceship = new Spaceship(700 /2, 700-50); // FIXME size of panel
+        spaceship = new Spaceship(MainInterface.GAME_W /2, MainInterface.GAME_W-50);
         aliens = new ArrayList<Alien>();
         bullets = new ArrayList<Bullet>();
 
         int a=0, b=0;
         for (int i=0 ; i<nb_alien ; i++) {
-            if (a*Alien.w >= 700) { // new line FIXME size of panel
+            if (a*Alien.w >= MainInterface.GAME_W) {
                 a=0;
                 b++;
             }
@@ -30,18 +32,19 @@ public class Game extends Observable {
         this.nb_kill = 0;
     }
 
-    public void sendBullet() {
+    public void addBullet() {
         this.bullets.add(
             new Bullet(this.spaceship.getX(), this.spaceship.getY())
         );
         this.nb_bullet_send +=1;
     }
 
-    public void killAlien(int i) {
+    public void removeAlien(int i) {
         this.aliens.remove(i);
         this.nb_kill += 1;
     }
 
+    // informtion
     public int getNbKill() {
         return this.nb_kill;
     }
