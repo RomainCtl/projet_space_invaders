@@ -1,8 +1,9 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
-public class Game {
+public class Game extends Observable {
 
     private ArrayList<Alien> aliens;
     private ArrayList<Bullet> bullets;
@@ -47,7 +48,7 @@ public class Game {
     public int getNbBulletSend() {
         return this.nb_bullet_send;
     }
-    public double getRaio() {
+    public double getRatio() {
         return this.nb_kill / (this.nb_bullet_send *1.0);
     }
 }
