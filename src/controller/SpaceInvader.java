@@ -32,13 +32,12 @@ public class SpaceInvader {
     class ScheduleTask extends TimerTask {
         public void run() {
             if (status == SpaceInvader.IN_GAME) {
-                // move();
+                for (Alien a : aliens)
+                    a.move();
+                for (Bullet b : bullets)
+                    b.move();
             }
         }
-    }
-
-    public void setPause() {
-        this.status = !this.status;
     }
 
     public void restart() {
@@ -64,18 +63,25 @@ public class SpaceInvader {
         this.status = SpaceInvader.IN_GAME;
     }
 
-    public void sendBullet() {
-        this.bullets.add(
-            new Bullet(this.spaceship.getX(), this.spaceship.getY())
-        );
-        this.game.addBullet();
+    public void setPause() {
+        this.status = !this.status;
     }
-
+    public void sendBullet() {
+        if (status == SpaceInvader.IN_GAME) {
+            this.bullets.add(
+                new Bullet(this.spaceship.getX(), this.spaceship.getY())
+            );
+            this.game.addBullet();
+        }
+    }
     public void killAlien(int i) {
-        this.aliens.remove(i);
-        this.game.addKill();
+        if (status == SpaceInvader.IN_GAME) {
+            this.aliens.remove(i);
+            this.game.addKill();
+        }
     }
     public void shipMove(Boolean direction) {
-        this.spaceship.move(direction);
+        if (status == SpaceInvader.IN_GAME)
+            this.spaceship.move(direction);
     }
 }
