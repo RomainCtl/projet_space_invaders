@@ -1,11 +1,14 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import model.Entity;
+import model.Alien;
+import model.Bullet;
 import model.Game;
+import model.Spaceship;
 import view.MainInterface;
 
 public class SpaceInvader {
@@ -16,6 +19,10 @@ public class SpaceInvader {
 
     public static Boolean PAUSE = true;
     public static Boolean IN_GAME = false;
+
+    private ArrayList<Alien> aliens;
+    private ArrayList<Bullet> bullets;
+    private Spaceship spaceship;
 
     public SpaceInvader() {
         this.myinterface = new MainInterface(this);
@@ -35,8 +42,21 @@ public class SpaceInvader {
     }
 
     public void restart() {
-        this.game = new Game(5*11);
+        this.game = new Game();
         this.game.addObserver(this.myinterface);
+
+        this.spaceship = new Spaceship(MainInterface.GAME_W /2, MainInterface.GAME_W-50);
+        this.aliens = new ArrayList<Alien>();
+        this.bullets = new ArrayList<Bullet>();
+
+        int a=0, b=0;
+        for (int i=0 ; i<5*11 ; i++) {
+            if (a*Alien.w >= MainInterface.GAME_W) {
+                a=0;
+                b++;
+            }
+            this.aliens.add( new Alien(a*Alien.w, b*Alien.h) );
+        }
 
         this.timer = new Timer();
         this.timer.scheduleAtFixedRate(new ScheduleTask(), 100, 10);
@@ -45,10 +65,17 @@ public class SpaceInvader {
     }
 
     public void sendBullet() {
+        this.bullets.add(
+            new Bullet(this.spaceship.getX(), this.spaceship.getY())
+        );
         this.game.addBullet();
     }
 
     public void killAlien(int i) {
-        this.game.removeAlien(i);
+        this.aliens.remove(i);
+        this.game.addKill();
+    }
+    public void shipMove(Boolean direction) {
+        this.spaceship.move(direction);
     }
 }
