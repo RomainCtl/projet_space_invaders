@@ -5,11 +5,11 @@ import java.util.Observable;
 public class Game extends Observable {
 
     private int nb_bullet_send;
-    private int nb_kill;
+    private int nb_enemies, nb_remaining_enemies;
 
-    public Game(){
+    public Game(int nb_e){
         this.nb_bullet_send = 0;
-        this.nb_kill = 0;
+        this.nb_enemies = this.nb_remaining_enemies = nb_e;
     }
 
     public void addBullet() {
@@ -17,7 +17,7 @@ public class Game extends Observable {
         this.notif();
     }
     public void addKill() {
-        this.nb_kill += 1;
+        this.nb_remaining_enemies -= 1;
         this.notif();
     }
 
@@ -26,13 +26,16 @@ public class Game extends Observable {
         this.notifyObservers();
     }
 
+    public int getNbRemainingEnemies() {
+        return this.nb_remaining_enemies;
+    }
     public int getNbKill() {
-        return this.nb_kill;
+        return this.nb_enemies - this.nb_remaining_enemies;
     }
     public int getNbBulletSend() {
         return this.nb_bullet_send;
     }
     public double getRatio() {
-        return this.nb_kill / (this.nb_bullet_send *1.0);
+        return this.getNbKill() / (this.nb_bullet_send *1.0);
     }
 }
