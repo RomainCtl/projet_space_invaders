@@ -11,7 +11,7 @@ import model.Game;
 import model.Spaceship;
 import view.MainInterface;
 
-public class SpaceInvader {
+public class SpaceInvader extends Observable {
     private Timer timer;
     private Boolean status;
     private Game game;
@@ -36,6 +36,8 @@ public class SpaceInvader {
                     a.move();
                 for (Bullet b : bullets)
                     b.move();
+                setChanged();
+                notifyObservers();
             }
         }
     }
@@ -83,5 +85,12 @@ public class SpaceInvader {
     public void shipMove(Boolean direction) {
         if (status == SpaceInvader.IN_GAME)
             this.spaceship.move(direction);
+    }
+
+    public ArrayList<Alien> getAliens() {
+        return this.aliens;
+    }
+    public ArrayList<Bullet> getBullets() {
+        return this.bullets;
     }
 }

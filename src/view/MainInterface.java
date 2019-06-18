@@ -31,6 +31,8 @@ public class MainInterface extends JFrame implements Observer, KeyListener {
 
     private SpaceInvader controller;
 
+    private ViewAlienArmy alienarmy;
+
     private JLabel nb_kill;
     private JLabel nb_bullet;
     private JLabel ratio;
@@ -63,6 +65,9 @@ public class MainInterface extends JFrame implements Observer, KeyListener {
         this.game_area.setSize(MainInterface.GAME_W, MainInterface.GAME_H);
 
         // TODO
+        this.alienarmy = new ViewAlienArmy();
+        this.controller.addObserver(this.alienarmy);
+        // this.game_area.add(this.alienarmy);
 
         this.add(this.game_area);
 

@@ -35,5 +35,5 @@ run :
 	@echo Run main file
 	@echo --------
 	@echo
-	java -cp ${BIN} ${MAIN_CLASS}
+	java -cp ${BIN}:${BIN}/.. ${MAIN_CLASS}
 
