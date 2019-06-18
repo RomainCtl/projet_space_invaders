@@ -19,7 +19,6 @@ public class Game extends Observable {
         this.nb_kill += 1;
     }
 
-    // informtion
     public int getNbKill() {
         return this.nb_kill;
     }

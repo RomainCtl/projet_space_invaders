@@ -5,7 +5,7 @@ import view.MainInterface;
 
 public class Spaceship extends Entity {
 
-    private String image_path = "../assets/ship.gif";
+    public String image_path = "../assets/ship.gif";
 
     public static int w = 33;
     public static int h = 23;

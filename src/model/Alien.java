@@ -4,7 +4,7 @@ import view.MainInterface;
 
 public class Alien extends AutoEntity {
 
-    private String image_path = "../assets/alien.gif";
+    public String image_path = "../assets/alien.gif";
 
     public static int w = 43;
     public static int h = 29;

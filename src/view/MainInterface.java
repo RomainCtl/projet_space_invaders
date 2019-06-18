@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -8,12 +9,14 @@ import java.awt.event.KeyListener;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 import controller.SpaceInvader;
 import model.Entity;
@@ -43,6 +46,8 @@ public class MainInterface extends JFrame implements Observer, KeyListener {
 
         this.initInterface();
 
+        this.addKeyListener(this);
+
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Space Invader");
         this.setBounds(100, 100, 750, 600);
@@ -64,14 +69,16 @@ public class MainInterface extends JFrame implements Observer, KeyListener {
         // informations area
         this.info_area = new JPanel();
         this.info_area.setLayout(new BoxLayout(this.info_area, BoxLayout.Y_AXIS));
-        this.info_area.setSize(150, 600);
+        this.info_area.setBorder(new EmptyBorder(0, 600, 0, 0));
 
         this.nb_kill = new JLabel("Kill: 0");
         this.nb_bullet = new JLabel("Bullet send: 0");
         this.ratio = new JLabel("Ratio: 1");
 
         this.info_area.add(this.nb_kill);
+        this.info_area.add(Box.createRigidArea(new Dimension(0, 15)));
         this.info_area.add(this.nb_bullet);
+        this.info_area.add(Box.createRigidArea(new Dimension(0, 15)));
         this.info_area.add(this.ratio);
 
         this.add(this.info_area);
@@ -122,13 +129,7 @@ public class MainInterface extends JFrame implements Observer, KeyListener {
 
     // Key events
     @Override
-    public void keyPressed(KeyEvent arg0) { }
-
-    @Override
-    public void keyReleased(KeyEvent arg0) { }
-
-    @Override
-    public void keyTyped(KeyEvent evt) {
+    public void keyPressed(KeyEvent evt) {
         if (evt.getKeyChar() == KeyEvent.VK_P)
             this.controller.setPause();
         if (evt.getKeyChar() == KeyEvent.VK_SPACE)
@@ -138,4 +139,10 @@ public class MainInterface extends JFrame implements Observer, KeyListener {
         if (evt.getKeyChar() == KeyEvent.VK_LEFT)
             this.controller.shipMove(Entity.LEFT);
     }
+
+    @Override
+    public void keyReleased(KeyEvent evt) { }
+
+    @Override
+    public void keyTyped(KeyEvent evt) { }
 }

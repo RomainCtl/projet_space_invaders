@@ -2,7 +2,7 @@ package model;
 
 public class Bullet extends AutoEntity {
 
-    private String image_path = "../assets/shot.gif";
+    public String image_path = "../assets/shot.gif";
 
     public static int w = 12;
     public static int h = 23;
