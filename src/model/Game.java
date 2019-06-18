@@ -14,9 +14,16 @@ public class Game extends Observable {
 
     public void addBullet() {
         this.nb_bullet_send +=1;
+        this.notif();
     }
     public void addKill() {
         this.nb_kill += 1;
+        this.notif();
+    }
+
+    private void notif() {
+        this.setChanged();
+        this.notifyObservers();
     }
 
     public int getNbKill() {
