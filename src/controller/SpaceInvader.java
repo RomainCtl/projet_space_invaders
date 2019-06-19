@@ -118,12 +118,13 @@ public class SpaceInvader extends Observable {
         return this.aliens;
     }
 
-    public Spaceship getSpaceship(){
-        return this.spaceship;
-    }
-
-    // same with bullets
+    // same as aliens but with bullets
     public ArrayList<Bullet> getBullets() {
         return this.bullets;
+    }
+
+      // get spaceship object
+      public Spaceship getSpaceship(){
+        return this.spaceship;
     }
 }

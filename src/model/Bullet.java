@@ -12,7 +12,7 @@ public class Bullet extends AutoEntity {
     @Override
     public void move() {
         if (this.posy + this.height >= 0)
-            this.posy -= 3;
+            this.posy -= 10;
         // TODO remove me from list
     }
 }
