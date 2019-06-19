@@ -58,7 +58,7 @@ public class SpaceInvader extends Observable {
         this.game.addObserver(this.myinterface);
 
         // nouveau Spaceship
-        this.spaceship = new Spaceship(MainInterface.GAME_W /2, MainInterface.GAME_W-50);
+        this.spaceship = new Spaceship(MainInterface.GAME_W/2-50, MainInterface.GAME_W-100);
         this.aliens = new ArrayList<Alien>();
         this.bullets = new ArrayList<Bullet>();
 
@@ -104,7 +104,6 @@ public class SpaceInvader extends Observable {
     }
     // change ship direction (right or left key)
     public void shipMove(Boolean direction) {
-        System.out.println(direction);
         if (status == SpaceInvader.IN_GAME)
             this.spaceship.move(direction);
     }
@@ -118,6 +117,11 @@ public class SpaceInvader extends Observable {
     public ArrayList<Alien> getAliens() {
         return this.aliens;
     }
+
+    public Spaceship getSpaceship(){
+        return this.spaceship;
+    }
+
     // same with bullets
     public ArrayList<Bullet> getBullets() {
         return this.bullets;

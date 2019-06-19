@@ -16,10 +16,10 @@ public class Spaceship extends Entity {
         if (status == SpaceInvader.IN_GAME) {
             if (direction == Entity.LEFT) {
                 if (this.posx > 0)
-                    this.posx -= 2;
+                    this.posx -= 6;
             } else {
                 if (this.posx + this.width < MainInterface.GAME_W)
-                    this.posx += 2;
+                    this.posx += 6;
             }
         }
     }
