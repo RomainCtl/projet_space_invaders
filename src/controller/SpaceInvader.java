@@ -3,7 +3,9 @@ package controller;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Timer;
+import java.util.Iterator;
 import java.util.TimerTask;
+import java.util.NoSuchElementException;
 
 import model.Alien;
 import model.Bullet;
@@ -42,6 +44,7 @@ public class SpaceInvader extends Observable {
                     b.move();
                 setChanged();
                 notifyObservers();
+                checkCollision();
             }
         }
     }
@@ -89,13 +92,13 @@ public class SpaceInvader extends Observable {
     public void sendBullet() {
         if (status == SpaceInvader.IN_GAME) {
             this.bullets.add(
-                new Bullet(this.spaceship.getX(), this.spaceship.getY())
+                new Bullet(this.spaceship.getX()+10, this.spaceship.getY())
             );
             this.game.addBullet();
         }
     }
     // suppression d'un alien, d'un bullet et incrementation du nombre de kill
-    public void killAlien(int a, int b) {
+    public void killAlien(Alien a, Bullet b) {
         if (status == SpaceInvader.IN_GAME) {
             this.aliens.remove(a);
             this.bullets.remove(b);
@@ -124,7 +127,30 @@ public class SpaceInvader extends Observable {
     }
 
       // get spaceship object
-      public Spaceship getSpaceship(){
+    public Spaceship getSpaceship(){
         return this.spaceship;
+    }
+
+    public void checkCollision(){
+        Iterator<Alien> iteratorAlien = aliens.iterator();
+        Iterator<Bullet> iteratorBullet = bullets.iterator();
+        try {
+            while(iteratorBullet.hasNext()) {
+                double current_bullet_x = iteratorBullet.next().getX();
+                double current_bullet_y = iteratorBullet.next().getY();
+                System.out.println(current_bullet_y);
+                while (iteratorAlien.hasNext()) {
+                    double current_alien_x = iteratorAlien.next().getX();
+                    double current_alien_y = iteratorAlien.next().getY();
+                    if(current_bullet_y < current_alien_y) {
+                        if(current_alien_x + iteratorAlien.next().w > current_bullet_x && current_alien_x - iteratorAlien.next().w < current_bullet_x) {
+                            killAlien(iteratorAlien.next(),iteratorBullet.next());
+                        }
+                    }
+                }        
+            }
+        } catch(Exception NoSuchElementException) {
+            // Aie
+        }
     }
 }
