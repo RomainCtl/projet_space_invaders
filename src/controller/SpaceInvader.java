@@ -91,10 +91,19 @@ public class SpaceInvader extends Observable {
     // spaceship send bullet
     public void sendBullet() {
         if (status == SpaceInvader.IN_GAME) {
-            this.bullets.add(
-                new Bullet(this.spaceship.getX()+10, this.spaceship.getY())
-            );
-            this.game.addBullet();
+                if(bullets.size() != 0){
+                    if(bullets.get(bullets.size()-1).getY() < 450) {
+                        this.bullets.add(
+                            new Bullet(this.spaceship.getX()+10, this.spaceship.getY())
+                        );
+                        this.game.addBullet();
+                    }
+                } else {
+                    this.bullets.add(
+                        new Bullet(this.spaceship.getX()+10, this.spaceship.getY())
+                    );
+                    this.game.addBullet();
+                }
         }
     }
     // suppression d'un alien, d'un bullet et incrementation du nombre de kill
@@ -136,15 +145,16 @@ public class SpaceInvader extends Observable {
         Iterator<Bullet> iteratorBullet = bullets.iterator();
         try {
             while(iteratorBullet.hasNext()) {
-                double current_bullet_x = iteratorBullet.next().getX();
-                double current_bullet_y = iteratorBullet.next().getY();
-                System.out.println(current_bullet_y);
+                Bullet b = iteratorBullet.next();
+                double current_bullet_x = b.getX();
+                double current_bullet_y = b.getY();
                 while (iteratorAlien.hasNext()) {
-                    double current_alien_x = iteratorAlien.next().getX();
-                    double current_alien_y = iteratorAlien.next().getY();
-                    if(current_bullet_y < current_alien_y) {
-                        if(current_alien_x + iteratorAlien.next().w > current_bullet_x && current_alien_x - iteratorAlien.next().w < current_bullet_x) {
-                            killAlien(iteratorAlien.next(),iteratorBullet.next());
+                    Alien a = iteratorAlien.next();
+                    double current_alien_x = a.getX();
+                    double current_alien_y = a.getY();
+                    if(current_bullet_y < current_alien_y + a.h) {
+                        if(current_alien_x + a.w/3 > current_bullet_x && current_alien_x - a.w/3 < current_bullet_x) {
+                            killAlien(a,b);
                         }
                     }
                 }        
