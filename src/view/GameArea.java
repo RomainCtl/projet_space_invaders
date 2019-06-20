@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Vector;
-import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;

@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.text.DecimalFormat;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -67,6 +68,7 @@ public class MainInterface extends JFrame implements Observer, KeyListener {
         // informations area (do not need sub class)
         this.info_area = new JPanel();
         this.info_area.setLayout(new BoxLayout(this.info_area, BoxLayout.Y_AXIS));
+        this.info_area.setSize(150, 600);
         this.info_area.setBorder(new EmptyBorder(0, 600, 0, 0));
 
         this.nb_kill = new JLabel("Kill: 0");
@@ -130,7 +132,7 @@ public class MainInterface extends JFrame implements Observer, KeyListener {
 
         this.nb_kill.setText("Kill: "+kill);
         this.nb_bullet.setText("Bullet send: "+bullet);
-        this.ratio.setText("Ratio: "+ratio);
+        this.ratio.setText("Ratio: "+new DecimalFormat("#.##").format(ratio));
         this.nb_enemies.setText("Enemies: "+remain_e);
     }
 

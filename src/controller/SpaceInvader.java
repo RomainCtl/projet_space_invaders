@@ -5,7 +5,6 @@ import java.util.Observable;
 import java.util.Timer;
 import java.util.Iterator;
 import java.util.TimerTask;
-import java.util.NoSuchElementException;
 
 import model.Alien;
 import model.Bullet;
@@ -38,13 +37,13 @@ public class SpaceInvader extends Observable {
     class ScheduleTask extends TimerTask {
         public void run() {
             if (status == SpaceInvader.IN_GAME) {
+                checkCollision();
                 for (Alien a : aliens)
                     a.move();
                 for (Bullet b : bullets)
                     b.move();
                 setChanged();
                 notifyObservers();
-                checkCollision();
             }
         }
     }
@@ -157,7 +156,7 @@ public class SpaceInvader extends Observable {
                             killAlien(a,b);
                         }
                     }
-                }        
+                }
             }
         } catch(Exception NoSuchElementException) {
             // Aie
