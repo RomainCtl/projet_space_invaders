@@ -20,6 +20,7 @@ public class SpaceInvader extends Observable {
     public static Boolean PAUSE = true;
     public static Boolean IN_GAME = false;
 
+    private Boolean over;
     private int rows, cols, speed;
 
     private int interval = 50; // 0.05s
@@ -77,12 +78,14 @@ public class SpaceInvader extends Observable {
             a++;
         }
         this.army.add(a_tmp);
+        this.game.addArmy();
     }
 
     // restart game
     public void restart() {
         this.new_army_interval = 1200;
         this.cpt_new_army = 0;
+        this.over=false;
 
         if (this.timer != null)
             this.timer.cancel(); // on annule l'ancien timer s'il existe
@@ -172,9 +175,13 @@ public class SpaceInvader extends Observable {
         return this.spaceship;
     }
 
+    public Boolean getOver(){
+        return this.over;
+    }
+
     public void end(){
         this.status = SpaceInvader.PAUSE;
-        // TODO
+        this.over=true;
     }
 
     public void checkCollision(){

@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -149,7 +148,7 @@ public class MainInterface extends JFrame implements Observer, KeyListener {
             this.controller.shipMove(Entity.LEFT);
     }
     @Override
-    public void keyReleased(KeyEvent evt) { }
+    public void keyReleased(KeyEvent evt) {     }
     @Override
     public void keyTyped(KeyEvent evt) { }
 }
