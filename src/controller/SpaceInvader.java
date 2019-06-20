@@ -37,7 +37,6 @@ public class SpaceInvader extends Observable {
     class ScheduleTask extends TimerTask {
         public void run() {
             if (status == SpaceInvader.IN_GAME) {
-                checkCollision();
                 for (Alien a : aliens)
                     a.move();
                 for (Bullet b : bullets)
@@ -90,19 +89,10 @@ public class SpaceInvader extends Observable {
     // spaceship send bullet
     public void sendBullet() {
         if (status == SpaceInvader.IN_GAME) {
-                if(bullets.size() != 0){
-                    if(bullets.get(bullets.size()-1).getY() < 450) {
-                        this.bullets.add(
-                            new Bullet(this.spaceship.getX()+10, this.spaceship.getY())
-                        );
-                        this.game.addBullet();
-                    }
-                } else {
-                    this.bullets.add(
-                        new Bullet(this.spaceship.getX()+10, this.spaceship.getY())
-                    );
-                    this.game.addBullet();
-                }
+            this.bullets.add(
+                new Bullet(this.spaceship.getX()+10, this.spaceship.getY())
+            );
+            this.game.addBullet();
         }
     }
     // suppression d'un alien, d'un bullet et incrementation du nombre de kill
@@ -137,24 +127,5 @@ public class SpaceInvader extends Observable {
       // get spaceship object
     public Spaceship getSpaceship(){
         return this.spaceship;
-    }
-
-    public void checkCollision(){
-        int i=0, y=0;
-        for(i=0;i<bullets.size();i++){
-            Bullet b = bullets.get(i);
-            double b_x = b.getX(); 
-            double b_y = b.getY();
-            for(y=0;y<aliens.size();y++){
-                Alien a = aliens.get(i);
-                double a_x = a.getX();
-                double a_y = a.getY();
-                if(b_y < a_y + a.h) {
-                    if(a_x + a.w/3 > b_x && a_x - a.w/3 < b_x) {
-                        killAlien(a,b);
-                    }
-                }
-            }
-        }
     }
 }
