@@ -38,6 +38,10 @@ public class GameArea extends JPanel implements Observer {
         this.setBackground(Color.BLACK);
         this.setSize(MainInterface.GAME_W, MainInterface.GAME_H);
 
+        coordAlien = new Vector<Vector<Double>>();
+        coordBullet = new Vector<Vector<Double>>();
+        coordShip = new Vector<Double>();
+
         URL img_space_url = this.getClass().getResource(this.ship_image_path);
         URL img_alien_url = this.getClass().getResource(this.alien_image_path);
         URL img_bullet_url = this.getClass().getResource(this.bullet_image_path);
@@ -52,8 +56,6 @@ public class GameArea extends JPanel implements Observer {
             img_alien = ii1.getImage();
             img_ship = ii2.getImage();
             img_bullet = ii3.getImage();
-
-            this.repaint();
         }
     }
 
@@ -77,9 +79,11 @@ public class GameArea extends JPanel implements Observer {
         }
 
         //Ship
-        g2d.drawImage(
-            img_ship, coordShip.get(0).intValue(), coordShip.get(1).intValue(), this
-        );
+        if (this.coordShip.size() == 2) {
+            g2d.drawImage(
+                img_ship, coordShip.get(0).intValue(), coordShip.get(1).intValue(), this
+            );
+        }
 
         Toolkit.getDefaultToolkit().sync();
         g.dispose();
@@ -92,12 +96,14 @@ public class GameArea extends JPanel implements Observer {
         coordBullet = new Vector<Vector<Double>>();
         coordShip = new Vector<Double>();
 
-        ArrayList<Alien> aliens = ((SpaceInvader) m).getAliens();
-        for (Alien a : aliens) {
-            Vector<Double> tmp1 = new Vector<Double>();
-            tmp1.add(a.getX()); // x
-            tmp1.add(a.getY()); // y
-            coordAlien.add(tmp1);
+        ArrayList<ArrayList<Alien>> army = ((SpaceInvader) m).getArmy();
+        for (ArrayList<Alien> aliens : army) {
+            for (Alien a : aliens) {
+                Vector<Double> tmp1 = new Vector<Double>();
+                tmp1.add(a.getX()); // x
+                tmp1.add(a.getY()); // y
+                coordAlien.add(tmp1);
+            }
         }
 
         ArrayList<Bullet> bullet = ((SpaceInvader) m).getBullets();
