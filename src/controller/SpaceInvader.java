@@ -134,9 +134,14 @@ public class SpaceInvader extends Observable {
         return this.bullets;
     }
 
-      // get spaceship object
+    // get spaceship object
     public Spaceship getSpaceship(){
         return this.spaceship;
+    }
+
+    public void end(){
+        this.status = SpaceInvader.PAUSE;
+        // TODO
     }
 
     public void checkCollision(){
