@@ -3,7 +3,6 @@ package controller;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Timer;
-import java.util.Iterator;
 import java.util.TimerTask;
 
 import model.Alien;
@@ -42,6 +41,7 @@ public class SpaceInvader extends Observable {
     class ScheduleTask extends TimerTask {
         public void run() {
             if (status == SpaceInvader.IN_GAME) {
+                // create new army each X time
                 cpt_new_army++;
                 if (cpt_new_army >= new_army_interval) {
                     if (new_army_interval > 400) new_army_interval-=100;
