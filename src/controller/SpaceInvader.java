@@ -145,26 +145,21 @@ public class SpaceInvader extends Observable {
     }
 
     public void checkCollision(){
-        Iterator<Alien> iteratorAlien = aliens.iterator();
-        Iterator<Bullet> iteratorBullet = bullets.iterator();
-        try {
-            while(iteratorBullet.hasNext()) {
-                Bullet b = iteratorBullet.next();
-                double current_bullet_x = b.getX();
-                double current_bullet_y = b.getY();
-                while (iteratorAlien.hasNext()) {
-                    Alien a = iteratorAlien.next();
-                    double current_alien_x = a.getX();
-                    double current_alien_y = a.getY();
-                    if(current_bullet_y < current_alien_y + a.h) {
-                        if(current_alien_x + a.w/3 > current_bullet_x && current_alien_x - a.w/3 < current_bullet_x) {
-                            killAlien(a,b);
-                        }
+        int i=0, y=0;
+        for(i=0;i<bullets.size();i++){
+            Bullet b = bullets.get(i);
+            double b_x = b.getX(); 
+            double b_y = b.getY();
+            for(y=0;y<aliens.size();y++){
+                Alien a = aliens.get(i);
+                double a_x = a.getX();
+                double a_y = a.getY();
+                if(b_y < a_y + a.h) {
+                    if(a_x + a.w/3 > b_x && a_x - a.w/3 < b_x) {
+                        killAlien(a,b);
                     }
                 }
             }
-        } catch(Exception NoSuchElementException) {
-            // Aie
         }
     }
 }
