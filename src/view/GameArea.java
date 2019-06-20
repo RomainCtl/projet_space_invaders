@@ -128,9 +128,9 @@ public class GameArea extends JPanel implements Observer {
             coordShip = new Vector<Double>();
             Boolean ov = ((SpaceInvader) m).getOver();
 
-            if (ov) {
-                this.add(this.game_over_label); // FIXME do not display anything
-            }
+            if (ov)
+                this.add(this.game_over_label);
+
             ArrayList<Alien> aliens = ((SpaceInvader) m).getAliens();
             for (Alien a : aliens) {
                 Vector<Double> tmp1 = new Vector<Double>();
