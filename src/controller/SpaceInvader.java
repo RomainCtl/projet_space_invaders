@@ -23,8 +23,12 @@ public class SpaceInvader extends Observable {
     private int rows, cols, speed;
 
     private int interval = 50; // 0.05s
-    private int new_army_interval = 1200; // 1200 * 0.05s = 60s=1min
+    private int default_army_interval = 1000;  // 1200 * 0.05s = 60s=1min
+    private int new_army_interval;
     private int cpt_new_army;
+    private int new_bullet_interval = 10;
+    private int cpt_new_bullet;
+    private Boolean new_bullet_flag = true;
 
     private ArrayList<ArrayList<Alien>> army;
     private ArrayList<Bullet> bullets;
@@ -33,7 +37,7 @@ public class SpaceInvader extends Observable {
     public SpaceInvader(int row, int col) {
         this.rows = row;
         this.cols = col;
-        this.speed = 1;
+        this.speed = 3;
         this.myinterface = new MainInterface(this);
         this.restart();
     }
@@ -43,11 +47,16 @@ public class SpaceInvader extends Observable {
             if (status == SpaceInvader.IN_GAME) {
                 // create new army each X time
                 cpt_new_army++;
+                cpt_new_bullet++;
                 if (cpt_new_army >= new_army_interval) {
-                    if (new_army_interval > 400) new_army_interval-=100;
-                    cpt_new_army=0;
+                    new_army_interval-=50;
                     speed++;
                     createArmy();
+                    cpt_new_army = 0;
+                }
+
+                if (cpt_new_bullet >= new_bullet_interval) {
+                    new_bullet_flag = true;
                 }
 
                 checkCollision();
@@ -79,9 +88,21 @@ public class SpaceInvader extends Observable {
         this.army.add(a_tmp);
     }
 
+    // spaceship send bullet
+    public void sendBullet() {
+        if (new_bullet_flag) {
+            this.bullets.add(
+                new Bullet(this, this.spaceship.getX()+10, this.spaceship.getY())
+            );
+            this.game.addBullet();
+            new_bullet_flag = false;
+            cpt_new_bullet = 0;
+        }
+    }
+
     // restart game
     public void restart() {
-        this.new_army_interval = 1200;
+        this.new_army_interval = this.default_army_interval;
         this.cpt_new_army = 0;
 
         if (this.timer != null)
@@ -114,24 +135,7 @@ public class SpaceInvader extends Observable {
     public void setPause() {
         this.status = !this.status;
     }
-    // spaceship send bullet
-    public void sendBullet() {
-        if (status == SpaceInvader.IN_GAME) {
-                if(bullets.size() != 0){
-                    if(bullets.get(bullets.size()-1).getY() < 450) {
-                        this.bullets.add(
-                            new Bullet(this, this.spaceship.getX()+10, this.spaceship.getY())
-                        );
-                        this.game.addBullet();
-                    }
-                } else {
-                    this.bullets.add(
-                        new Bullet(this, this.spaceship.getX()+10, this.spaceship.getY())
-                    );
-                    this.game.addBullet();
-                }
-        }
-    }
+    
     // suppression d'un alien, d'un bullet et incrementation du nombre de kill
     public void killAlien(Alien a, Bullet b) {
         if (status == SpaceInvader.IN_GAME) {
@@ -171,8 +175,34 @@ public class SpaceInvader extends Observable {
     public Spaceship getSpaceship(){
         return this.spaceship;
     }
-<<<<<<< HEAD
-=======
+
+    public void changeBulletSpeed(int index){
+        switch(index) {
+            case 0:
+                this.new_bullet_interval = 16;
+                break;
+            case 1:
+                this.new_bullet_interval = 8;
+                break;
+            case 2:
+                this.new_bullet_interval = 4;
+                break;
+        }
+    }
+
+    public void changeDifficulty(int index){
+        switch(index) {
+            case 0:
+                this.speed = 1;
+                break;
+            case 1:
+                this.speed = 3;
+                break;
+            case 2:
+                this.speed = 6;
+                break;
+        }
+    }
 
     public void end(){
         this.status = SpaceInvader.PAUSE;
@@ -200,5 +230,4 @@ public class SpaceInvader extends Observable {
             }
         }
     }
->>>>>>> eeef90734c6007ceb64b962141db12c17cf9e346
 }

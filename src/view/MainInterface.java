@@ -36,6 +36,11 @@ public class MainInterface extends JFrame implements Observer, KeyListener {
     private JLabel nb_bullet;
     private JLabel ratio;
     private JLabel nb_enemies;
+    private String[] bullet_speed = {"Normale","Rapide","Overkill"};
+    private String[] level = {"Normale","Difficile","Hardcore"};
+
+    private int indexBulletSpeed = 0;
+    private int index_level = 0;
 
     public static int GAME_W = 600;
     public static int GAME_H = 600;
@@ -107,6 +112,32 @@ public class MainInterface extends JFrame implements Observer, KeyListener {
             }
         });
         this.menu_bar.add(pause);
+
+        JMenuItem vitesse = new JMenuItem("Vitesse tir: "+bullet_speed[indexBulletSpeed]);
+        vitesse.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                indexBulletSpeed++;
+                if(indexBulletSpeed > 2)
+                    indexBulletSpeed = 0;
+                vitesse.setText("Vitesse tir: "+bullet_speed[indexBulletSpeed]);
+                controller.changeBulletSpeed(indexBulletSpeed);
+            }
+        });
+        this.menu_bar.add(vitesse);
+
+        JMenuItem diff = new JMenuItem("Difficulté: "+this.level[index_level]);
+        diff.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                index_level++;
+                if(index_level > 2)
+                    index_level = 0;
+                diff.setText("Difficulté: "+level[index_level]);
+                controller.changeDifficulty(index_level);
+            }
+        });
+        this.menu_bar.add(diff);
 
         // exit game
         JMenuItem exit = new JMenuItem("Quitter");
