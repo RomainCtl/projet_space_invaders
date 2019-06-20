@@ -171,8 +171,6 @@ public class SpaceInvader extends Observable {
     public Spaceship getSpaceship(){
         return this.spaceship;
     }
-<<<<<<< HEAD
-=======
 
     public void end(){
         this.status = SpaceInvader.PAUSE;
@@ -200,5 +198,4 @@ public class SpaceInvader extends Observable {
             }
         }
     }
->>>>>>> eeef90734c6007ceb64b962141db12c17cf9e346
 }
