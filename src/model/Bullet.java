@@ -15,9 +15,9 @@ public class Bullet extends AutoEntity {
     }
 
     @Override
-    public void move() {
+    public Boolean move() {
         if (this.posy + this.height >= 0)
             this.posy -= 10;
-        // if (this.posy + this.h < 0) this.instance.removeBullet(this); // FIXME java.util.ConcurrentModificationException
+        return this.posy + this.h < 0;
     }
 }

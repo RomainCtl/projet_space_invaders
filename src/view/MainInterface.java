@@ -6,8 +6,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.text.DecimalFormat;
+import java.util.HashSet;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Set;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -21,26 +23,33 @@ import javax.swing.border.EmptyBorder;
 import controller.SpaceInvader;
 import model.Entity;
 import model.Game;
+import model.GameConfig;
 
 public class MainInterface extends JFrame implements Observer, KeyListener {
     private static final long serialVersionUID = 4551724583146448623L;
 
+    // Set of currently pressed keys
+    private final Set<Integer> pressed = new HashSet<Integer>();
+
     private GameArea game_area;
     private JPanel info_area;
-    private JMenuBar menu_bar;
+    private JMenuBar menu_bar;;
 
     private SpaceInvader controller;
+    private GameConfig config;
 
     private JLabel nb_kill;
     private JLabel nb_bullet;
     private JLabel ratio;
     private JLabel nb_enemies;
+    private JLabel vague;
 
     public static int GAME_W = 600;
     public static int GAME_H = 600;
 
-    public MainInterface(SpaceInvader instance) {
+    public MainInterface(SpaceInvader instance, GameConfig conf) {
         this.controller = instance;
+        this.config = conf;
 
         // bar de menu
         this.menu_bar = new JMenuBar();
@@ -60,7 +69,7 @@ public class MainInterface extends JFrame implements Observer, KeyListener {
 
     public void initInterface(int nb_e) {
         // game area
-        this.game_area = new GameArea();
+        this.game_area = new GameArea(this.config);
         this.controller.addObserver(this.game_area);
         this.add(this.game_area);
 
@@ -74,6 +83,7 @@ public class MainInterface extends JFrame implements Observer, KeyListener {
         this.nb_bullet = new JLabel("Bullet send: 0");
         this.ratio = new JLabel("Ratio: 1");
         this.nb_enemies = new JLabel("Enemies: "+nb_e);
+        this.vague = new JLabel("Vague: 1");
 
         this.info_area.add(this.nb_kill);
         this.info_area.add(Box.createRigidArea(new Dimension(0, 15)));
@@ -82,6 +92,8 @@ public class MainInterface extends JFrame implements Observer, KeyListener {
         this.info_area.add(this.ratio);
         this.info_area.add(Box.createRigidArea(new Dimension(0, 15)));
         this.info_area.add(this.nb_enemies);
+        this.info_area.add(Box.createRigidArea(new Dimension(0, 15)));
+        this.info_area.add(this.vague);
 
         this.add(this.info_area);
     }
@@ -107,6 +119,16 @@ public class MainInterface extends JFrame implements Observer, KeyListener {
         });
         this.menu_bar.add(pause);
 
+        JMenuItem preference = new JMenuItem("Preferences");
+        preference.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                controller.setPause(true);
+                Preference p = new Preference(config);
+            }
+        });
+        this.menu_bar.add(preference);
+
         // exit game
         JMenuItem exit = new JMenuItem("Quitter");
         exit.addActionListener(new ActionListener(){
@@ -128,27 +150,34 @@ public class MainInterface extends JFrame implements Observer, KeyListener {
         int remain_e = ((Game) m).getNbRemainingEnemies();
         int bullet = ((Game) m).getNbBulletSend();
         double ratio = ((Game) m).getRatio();
+        int nb_alien_by_army = ((Game) m).getNbAlienByArmy();
 
         this.nb_kill.setText("Kill: "+kill);
         this.nb_bullet.setText("Bullet send: "+bullet);
         this.ratio.setText("Ratio: "+new DecimalFormat("#.##").format(ratio));
         this.nb_enemies.setText("Enemies: "+remain_e);
+        this.vague.setText("Vague: "+ (kill+remain_e)/nb_alien_by_army);
     }
 
     // Key events
     @Override
     public void keyPressed(KeyEvent evt) {
-        if (evt.getKeyCode() == KeyEvent.VK_P)
-            this.controller.setPause();
-        if (evt.getKeyCode() == KeyEvent.VK_SPACE)
-            this.controller.sendBullet();
-        if (evt.getKeyCode() == KeyEvent.VK_RIGHT)
-            this.controller.shipMove(Entity.RIGHT);
-        if (evt.getKeyCode() == KeyEvent.VK_LEFT)
-            this.controller.shipMove(Entity.LEFT);
+        pressed.add(evt.getKeyCode());
+        for (Integer key_code : pressed) {
+            if (key_code == KeyEvent.VK_P)
+                this.controller.setPause();
+            if (key_code == KeyEvent.VK_SPACE)
+                this.controller.sendBullet();
+            if (key_code == KeyEvent.VK_RIGHT)
+                this.controller.shipMove(Entity.RIGHT);
+            if (key_code == KeyEvent.VK_LEFT)
+                this.controller.shipMove(Entity.LEFT);
+        }
     }
     @Override
-    public void keyReleased(KeyEvent evt) {     }
+    public void keyReleased(KeyEvent evt) {
+        pressed.remove(evt.getKeyCode());
+    }
     @Override
     public void keyTyped(KeyEvent evt) { }
 }

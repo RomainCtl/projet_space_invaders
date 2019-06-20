@@ -7,6 +7,7 @@ import java.util.TimerTask;
 
 import model.Alien;
 import model.Bullet;
+import model.GameConfig;
 import model.Game;
 import model.Spaceship;
 import view.MainInterface;
@@ -15,6 +16,7 @@ public class SpaceInvader extends Observable {
     private Timer timer = null;
     private Boolean status;
     private Game game;
+    private GameConfig config;
     private MainInterface myinterface;
 
     public static Boolean PAUSE = true;
@@ -24,18 +26,18 @@ public class SpaceInvader extends Observable {
     private int rows, cols, speed;
 
     private int interval = 50; // 0.05s
-    private int new_army_interval = 1200; // 1200 * 0.05s = 60s=1min
-    private int cpt_new_army;
+    private int cpt_new_bullet;
+    private Boolean new_bullet_flag = true;
 
-    private ArrayList<ArrayList<Alien>> army;
+    private ArrayList<Alien> aliens;
     private ArrayList<Bullet> bullets;
     private Spaceship spaceship;
 
     public SpaceInvader(int row, int col) {
         this.rows = row;
         this.cols = col;
-        this.speed = 1;
-        this.myinterface = new MainInterface(this);
+        this.config = new GameConfig();
+        this.myinterface = new MainInterface(this, this.config);
         this.restart();
     }
 
@@ -43,20 +45,31 @@ public class SpaceInvader extends Observable {
         public void run() {
             if (status == SpaceInvader.IN_GAME) {
                 // create new army each X time
-                cpt_new_army++;
-                if (cpt_new_army >= new_army_interval) {
-                    if (new_army_interval > 400) new_army_interval-=100;
-                    cpt_new_army=0;
+                if (aliens.size() ==0){
                     speed++;
                     createArmy();
                 }
 
+                // can send bullet only each
+                cpt_new_bullet++;
+                if (cpt_new_bullet >= config.getBullet_interval().getInterval()) {
+                    new_bullet_flag = true;
+                }
+
+                ArrayList<Bullet> to_delete = new ArrayList<Bullet>();
                 checkCollision();
-                for (ArrayList<Alien> aliens : army)
-                    for (Alien a : aliens)
-                        a.move();
+                for (Alien a : aliens)
+                    if (a.move()) {
+                        end();
+                        return;
+                    }
                 for (Bullet b : bullets)
-                    b.move();
+                    if (b.move())
+                        to_delete.add(b);
+
+                // remove bullet thats was not on screen
+                for (Bullet b : to_delete)
+                    bullets.remove(b);
                 setChanged();
                 notifyObservers();
             }
@@ -65,26 +78,35 @@ public class SpaceInvader extends Observable {
 
     // create new army
     public void createArmy(){
-        ArrayList<Alien> a_tmp = new ArrayList<Alien>();
         int a=0, b=0;
         for (int i=0 ; i<this.rows*this.cols ; i++) {
             if (a >= this.cols) {
                 a=0;
                 b++;
             }
-            a_tmp.add(
-                new Alien(this, a*Alien.w, b*Alien.h, this.speed, this.army.size())
+            this.aliens.add(
+                new Alien(this, a*Alien.w, b*Alien.h, this.speed)
             );
             a++;
         }
-        this.army.add(a_tmp);
         this.game.addArmy();
+    }
+
+    // spaceship send bullet
+    public void sendBullet() {
+        if (new_bullet_flag) {
+            this.bullets.add(
+                new Bullet(this, this.spaceship.getX()+10, this.spaceship.getY())
+            );
+            this.game.addBullet();
+            new_bullet_flag = false;
+            cpt_new_bullet = 0;
+        }
     }
 
     // restart game
     public void restart() {
-        this.new_army_interval = 1200;
-        this.cpt_new_army = 0;
+        this.speed = this.config.getAlien_speed().getSpeed();
         this.over=false;
 
         if (this.timer != null)
@@ -100,7 +122,7 @@ public class SpaceInvader extends Observable {
         // nouveau Spaceship
         this.spaceship = new Spaceship(MainInterface.GAME_W/2-50, MainInterface.GAME_W-100);
         this.bullets = new ArrayList<Bullet>();
-        this.army = new ArrayList<ArrayList<Alien>>();
+        this.aliens = new ArrayList<Alien>();
 
         // les aliens
         this.createArmy();
@@ -117,29 +139,14 @@ public class SpaceInvader extends Observable {
     public void setPause() {
         this.status = !this.status;
     }
-    // spaceship send bullet
-    public void sendBullet() {
-        if (status == SpaceInvader.IN_GAME) {
-                if(bullets.size() != 0){
-                    if(bullets.get(bullets.size()-1).getY() < 450) {
-                        this.bullets.add(
-                            new Bullet(this, this.spaceship.getX()+10, this.spaceship.getY())
-                        );
-                        this.game.addBullet();
-                    }
-                } else {
-                    this.bullets.add(
-                        new Bullet(this, this.spaceship.getX()+10, this.spaceship.getY())
-                    );
-                    this.game.addBullet();
-                }
-        }
+    public void setPause(Boolean p) {
+        this.status = p;
     }
+
     // suppression d'un alien, d'un bullet et incrementation du nombre de kill
     public void killAlien(Alien a, Bullet b) {
         if (status == SpaceInvader.IN_GAME) {
-            // this.aliens.remove(a);
-            this.army.get(a.getArmy()).remove(a);
+            this.aliens.remove(a);
             this.bullets.remove(b);
             this.game.addKill();
         }
@@ -151,14 +158,13 @@ public class SpaceInvader extends Observable {
     }
 
     // change alien group direction
-    public void alienChangeDirection(int army_id, Boolean dir) {
-        ArrayList<Alien> a_tmp = this.army.get(army_id);
-        for (Alien a : a_tmp) a.setDirection(dir);
+    public void alienChangeDirection(Boolean dir) {
+        for (Alien a : aliens) a.setDirection(dir);
     }
 
-    // use by view to get all aliens
-    public ArrayList<ArrayList<Alien>> getArmy() {
-        return this.army;
+    // get aliens list
+    public ArrayList<Alien> getAliens() {
+        return this.aliens;
     }
 
     // same as aliens but with bullets
@@ -182,6 +188,8 @@ public class SpaceInvader extends Observable {
     public void end(){
         this.status = SpaceInvader.PAUSE;
         this.over=true;
+        setChanged();
+        notifyObservers();
     }
 
     public void checkCollision(){
@@ -190,17 +198,15 @@ public class SpaceInvader extends Observable {
             double b_x = b.getX();
             double b_y = b.getY();
 
-            for (ArrayList<Alien> aliens : army) {
-                for (int y = aliens.size()-1 ; y>=0 ; y--) {
-                    Alien a = aliens.get(y);
-                    double a_x = a.getX();
-                    double a_y = a.getY();
+            for (int y = this.aliens.size()-1 ; y>=0 ; y--) {
+                Alien a = aliens.get(y);
+                double a_x = a.getX();
+                double a_y = a.getY();
 
-                    //check
-                    if (b_y <= a_y+a.h && b_y >= a_y && b_x >= a_x && b_x <= a_x+a.w) {
-                        killAlien(a, b);
-                        return;
-                    }
+                //check
+                if (b_y <= a_y+a.h && b_y >= a_y && b_x >= a_x && b_x <= a_x+a.w) {
+                    killAlien(a, b);
+                    return;
                 }
             }
         }

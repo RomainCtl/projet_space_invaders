@@ -8,5 +8,5 @@ public abstract class AutoEntity extends Entity {
         super(x, y, w, h);
     }
 
-    public abstract void move();
+    public abstract Boolean move();
 }

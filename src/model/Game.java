@@ -6,10 +6,12 @@ public class Game extends Observable {
 
     private int nb_bullet_send;
     private int nb_enemies, nb_remaining_enemies;
+    private int nb_alien_by_army;
 
-    public Game(int nb_e){
+    public Game(int nb_e_by_army) {
         this.nb_bullet_send = 0;
-        this.nb_enemies = this.nb_remaining_enemies = nb_e;
+        this.nb_enemies = this.nb_remaining_enemies = 0;
+        this.nb_alien_by_army = nb_e_by_army;
     }
 
     public void addBullet() {
@@ -26,6 +28,15 @@ public class Game extends Observable {
         this.notifyObservers();
     }
 
+    public void addArmy() {
+        this.nb_enemies += this.nb_alien_by_army;
+        this.nb_remaining_enemies += this.nb_alien_by_army;
+        this.notif();
+    }
+
+    public int getNbAlienByArmy() {
+        return this.nb_alien_by_army;
+    }
     public int getNbRemainingEnemies() {
         return this.nb_remaining_enemies;
     }

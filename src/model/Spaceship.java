@@ -7,6 +7,7 @@ public class Spaceship extends Entity {
 
     public static int w = 33;
     public static int h = 23;
+    private int speed = 8;
 
     public Spaceship(double x, double y) {
         super(x, y, Spaceship.w, Spaceship.h);
@@ -16,10 +17,10 @@ public class Spaceship extends Entity {
         if (status == SpaceInvader.IN_GAME) {
             if (direction == Entity.LEFT) {
                 if (this.posx > 0)
-                    this.posx -= 6;
+                    this.posx -= this.speed;
             } else {
                 if (this.posx + this.width < MainInterface.GAME_W)
-                    this.posx += 6;
+                    this.posx += this.speed;
             }
         }
     }
