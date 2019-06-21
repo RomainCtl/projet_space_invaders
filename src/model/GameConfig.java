@@ -19,6 +19,7 @@ public class GameConfig extends Observable {
     private String bullet_image;
     private String spaceship_image;
     private String background_image;
+    private String gameover_image;
     private BulletSpeed bullet_interval;
     private Level alien_speed;
     private int number_alien_row;
@@ -41,6 +42,7 @@ public class GameConfig extends Observable {
             this.bullet_image = prop.getProperty("bullet_image");
             this.spaceship_image = prop.getProperty("spaceship_image");
             this.background_image = prop.getProperty("background_image");
+            this.gameover_image = prop.getProperty("gameover_image");
             this.number_alien_row = Integer.valueOf(prop.getProperty("number_alien_row"));
             this.number_alien_col = Integer.valueOf(prop.getProperty("number_alien_col"));
 
@@ -55,7 +57,8 @@ public class GameConfig extends Observable {
             this.alien_image = "../assets/alien.gif";
             this.bullet_image = "../assets/shot.gif";
             this.spaceship_image = "../assets/ship.gif";
-            this.background_image = "";
+            this.background_image = "../assets/background.png";
+            this.gameover_image = "../assets/gameover.gif";
             this.number_alien_row = 5;
             this.number_alien_col = 11;
             this.bullet_interval = BulletSpeed.NORMALE;
@@ -72,6 +75,7 @@ public class GameConfig extends Observable {
             prop.setProperty("bullet_image", this.bullet_image);
             prop.setProperty("spaceship_image", this.spaceship_image);
             prop.setProperty("background_image", this.background_image);
+            prop.setProperty("gameover_image", this.gameover_image);
             prop.setProperty(
                 "bullet_interval",
                 String.valueOf(this.bullet_interval.ordinal())
@@ -167,5 +171,8 @@ public class GameConfig extends Observable {
     }
     public String getAlien_image(){
         return this.alien_image;
+    }
+    public String getGameover_image(){
+        return this.gameover_image;
     }
 }

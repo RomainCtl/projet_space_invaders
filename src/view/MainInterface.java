@@ -44,6 +44,8 @@ public class MainInterface extends JFrame implements Observer, KeyListener {
     private JLabel nb_enemies;
     private JLabel vague;
 
+    private JMenuItem pause;
+
     public static int GAME_W = 600;
     public static int GAME_H = 600;
 
@@ -98,6 +100,13 @@ public class MainInterface extends JFrame implements Observer, KeyListener {
         this.add(this.info_area);
     }
 
+    private void changeButtonPause() {
+        if (!this.controller.getStatus())
+            this.pause.setText("Reprendre");
+        else
+            this.pause.setText("Pause");
+    }
+
     private void setMenuBar() {
         // restart game
         JMenuItem new_game = new JMenuItem("Nouvelle Partie");
@@ -110,10 +119,11 @@ public class MainInterface extends JFrame implements Observer, KeyListener {
         this.menu_bar.add(new_game);
 
         // set pause (can use 'p' key too)
-        JMenuItem pause = new JMenuItem("Pause");
+        pause = new JMenuItem("Pause");
         pause.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent ae) {
+                changeButtonPause();
                 controller.setPause();
             }
         });
@@ -123,6 +133,7 @@ public class MainInterface extends JFrame implements Observer, KeyListener {
         preference.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent ae) {
+                changeButtonPause();
                 controller.setPause(true);
                 Preference p = new Preference(config);
             }
@@ -164,8 +175,10 @@ public class MainInterface extends JFrame implements Observer, KeyListener {
     public void keyPressed(KeyEvent evt) {
         pressed.add(evt.getKeyCode());
         for (Integer key_code : pressed) {
-            if (key_code == KeyEvent.VK_P)
+            if (key_code == KeyEvent.VK_P) {
+                this.changeButtonPause();
                 this.controller.setPause();
+            }
             if (key_code == KeyEvent.VK_SPACE)
                 this.controller.sendBullet();
             if (key_code == KeyEvent.VK_RIGHT)

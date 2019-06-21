@@ -143,6 +143,10 @@ public class SpaceInvader extends Observable {
         this.status = p;
     }
 
+    public Boolean getStatus(){
+        return this.status;
+    }
+
     // suppression d'un alien, d'un bullet et incrementation du nombre de kill
     public void killAlien(Alien a, Bullet b) {
         if (status == SpaceInvader.IN_GAME) {
