@@ -11,10 +11,9 @@ public class Alien extends AutoEntity {
     private SpaceInvader instance;
 
     public Alien(SpaceInvader i, double x, double y, int speed) {
-        super(x, y, Alien.w, Alien.h, 100, 10);
+        super(x, y, Alien.w, Alien.h, speed);
         this.direction = Entity.RIGHT;
         this.instance = i;
-        this.speed = speed;
     }
 
     @Override

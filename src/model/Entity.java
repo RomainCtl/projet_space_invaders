@@ -1,7 +1,5 @@
 package model;
 
-import java.awt.Image;
-
 public abstract class Entity {
 
     public static Boolean LEFT = true;
@@ -11,15 +9,15 @@ public abstract class Entity {
 
     protected double posx;
 	protected double posy;
-    protected String src_img;
-    protected Image sprite;
     protected int width, height;
+    protected int speed;
 
-    public Entity(double x, double y, int w, int h){
+    public Entity(double x, double y, int w, int h, int s){
         this.posx = x;
         this.posy = y;
         this.width = w;
         this.height = h;
+        this.speed = s
     }
 
     public double getX() {

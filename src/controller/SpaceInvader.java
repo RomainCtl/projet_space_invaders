@@ -96,7 +96,7 @@ public class SpaceInvader extends Observable {
     public void sendBullet() {
         if (new_bullet_flag) {
             this.bullets.add(
-                new Bullet(this, this.spaceship.getX()+10, this.spaceship.getY())
+                new Bullet(this.spaceship.getX()+10, this.spaceship.getY())
             );
             this.game.addBullet();
             new_bullet_flag = false;
