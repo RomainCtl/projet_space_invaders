@@ -70,7 +70,7 @@ public class GameArea extends JPanel implements Observer {
         URL img_bbg_url = this.getClass().getResource(this.background_image_path);
         URL img_gameover_url = this.getClass().getResource(this.gameover_path);
 
-        if (img_alien_url == null || img_space_url == null || img_bullet_url == null) {
+        if (img_alien_url == null || img_space_url == null || img_bullet_url == null || img_bbg_url == null || img_gameover_url == null) {
             System.err.println("Impossible de trouver les images");
             throw new ExceptionInInitializerError();
         }

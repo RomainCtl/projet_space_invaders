@@ -17,7 +17,7 @@ public abstract class Entity {
         this.posy = y;
         this.width = w;
         this.height = h;
-        this.speed = s
+        this.speed = s;
     }
 
     public double getX() {
