@@ -35,11 +35,11 @@ public class Preference extends JFrame {
         input_bullet.setSelectedIndex(this.config.getBullet_interval().ordinal());
         this.add(input_bullet);
 
-        this.add(new JLabel("Nombres d'aliens par lignes : "));
+        this.add(new JLabel("Nombres de lignes d'aliens : "));
         JNumberTextField input_row = new JNumberTextField(String.valueOf(this.config.getNumber_alien_row()));
         this.add(input_row);
 
-        this.add(new JLabel("Nombres d'aliens par colonnes : "));
+        this.add(new JLabel("Nombres de colonnes d'aliens : "));
         JNumberTextField input_col = new JNumberTextField(String.valueOf(this.config.getNumber_alien_col()));
         this.add(input_col);
 
@@ -77,8 +77,8 @@ public class Preference extends JFrame {
                 config.setBackground_image(background.getText());
                 config.setBullet_interval(BulletSpeed.valueOf((String)input_bullet.getSelectedValue()));
                 config.setBullet_image(bullet.getText());
-                config.setNumber_alien_col(input_row.getNumber());
-                config.setNumber_alien_row(input_col.getNumber());
+                config.setNumber_alien_col(input_col.getNumber());
+                config.setNumber_alien_row(input_row.getNumber());
                 config.setSpaceship_image(ship.getText());
 
                 dispose();

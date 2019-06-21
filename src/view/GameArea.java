@@ -99,21 +99,21 @@ public class GameArea extends JPanel implements Observer {
         Graphics2D g2d = (Graphics2D) g;
         for (Vector<Double> a : this.coordAlien) {
             g2d.drawImage(
-                img_alien, a.get(0).intValue(), a.get(1).intValue(), this
+                img_alien, a.get(0).intValue(), a.get(1).intValue(), Alien.w, Alien.h, this
             );
         }
 
         //Bullet
         for (Vector<Double> c : this.coordBullet) {
             g2d.drawImage(
-                img_bullet, c.get(0).intValue(), c.get(1).intValue(), this
+                img_bullet, c.get(0).intValue(), c.get(1).intValue(), Bullet.w, Bullet.h, this
             );
         }
 
         //Ship
         if (this.coordShip.size() == 2) {
             g2d.drawImage(
-                img_ship, coordShip.get(0).intValue(), coordShip.get(1).intValue(), this
+                img_ship, coordShip.get(0).intValue(), coordShip.get(1).intValue(), Spaceship.w, Spaceship.h, this
             );
         }
 

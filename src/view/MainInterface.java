@@ -135,7 +135,7 @@ public class MainInterface extends JFrame implements Observer, KeyListener {
             public void actionPerformed(ActionEvent ae) {
                 changeButtonPause();
                 controller.setPause(true);
-                Preference p = new Preference(config);
+                new Preference(config);
             }
         });
         this.menu_bar.add(preference);

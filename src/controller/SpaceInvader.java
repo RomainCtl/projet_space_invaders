@@ -33,9 +33,7 @@ public class SpaceInvader extends Observable {
     private ArrayList<Bullet> bullets;
     private Spaceship spaceship;
 
-    public SpaceInvader(int row, int col) {
-        this.rows = row;
-        this.cols = col;
+    public SpaceInvader() {
         this.config = new GameConfig();
         this.myinterface = new MainInterface(this, this.config);
         this.restart();
@@ -107,6 +105,8 @@ public class SpaceInvader extends Observable {
     // restart game
     public void restart() {
         this.speed = this.config.getAlien_speed().getSpeed();
+        this.rows = this.config.getNumber_alien_row();
+        this.cols = this.config.getNumber_alien_col();
         this.over=false;
 
         if (this.timer != null)

@@ -2,6 +2,6 @@ import controller.SpaceInvader;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        SpaceInvader instance = new SpaceInvader(5, 11);
+        SpaceInvader instance = new SpaceInvader();
     }
 }
