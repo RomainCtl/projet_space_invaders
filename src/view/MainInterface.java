@@ -133,6 +133,7 @@ public class MainInterface extends JFrame implements Observer, KeyListener {
         preference.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent ae) {
+                changeButtonPause();
                 controller.setPause(true);
                 Preference p = new Preference(config);
             }
