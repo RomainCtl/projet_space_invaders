@@ -23,18 +23,19 @@ import model.GameConfig;
 
 public class GameArea extends JPanel implements Observer {
     private static final long serialVersionUID = 2959271263636245674L;
-
-    public String alien_image_path;
-    public String bullet_image_path;
-    public String ship_image_path;
-    public String background_image_path;
+    private String alien_image_path;
+    private String bullet_image_path;
+    private String ship_image_path;
+    private String background_image_path;
+    private String gameover_path;
 
     private Image img_alien;
     private Image img_ship;
     private Image img_bullet;
     private Image img_background;
+    private Image img_gameover;
 
-    private JLabel game_over_label;
+    private Boolean gameover_flag = false;
 
     private Vector<Vector<Double>> coordAlien;
     private Vector<Double> coordShip;
@@ -45,6 +46,7 @@ public class GameArea extends JPanel implements Observer {
         this.bullet_image_path = conf.getBullet_image();
         this.ship_image_path = conf.getSpaceship_image();
         this.background_image_path = conf.getBackground_image();
+        this.gameover_path = conf.getGameover_image();
 
         this.setBackground(Color.BLACK);
         this.setSize(MainInterface.GAME_W, MainInterface.GAME_H);
@@ -52,10 +54,6 @@ public class GameArea extends JPanel implements Observer {
         coordAlien = new Vector<Vector<Double>>();
         coordBullet = new Vector<Vector<Double>>();
         coordShip = new Vector<Double>();
-
-        this.game_over_label = new JLabel("Game Over !");
-        this.game_over_label.setForeground(Color.WHITE);
-        this.game_over_label.setFont(game_over_label.getFont().deriveFont(64.0f));
 
         this.setImages();
     }
@@ -69,7 +67,8 @@ public class GameArea extends JPanel implements Observer {
         URL img_space_url = this.getClass().getResource(this.ship_image_path);
         URL img_alien_url = this.getClass().getResource(this.alien_image_path);
         URL img_bullet_url = this.getClass().getResource(this.bullet_image_path);
-        URL img_bbg = this.getClass().getResource(this.background_image_path);
+        URL img_bbg_url = this.getClass().getResource(this.background_image_path);
+        URL img_gameover_url = this.getClass().getResource(this.gameover_path);
 
         if (img_alien_url == null || img_space_url == null || img_bullet_url == null) {
             System.err.println("Impossible de trouver les images");
@@ -79,11 +78,13 @@ public class GameArea extends JPanel implements Observer {
             ImageIcon ii1 = new ImageIcon(img_alien_url);
             ImageIcon ii2 = new ImageIcon(img_space_url);
             ImageIcon ii3 = new ImageIcon(img_bullet_url);
-            ImageIcon ii4 = new ImageIcon(img_bbg);
+            ImageIcon ii4 = new ImageIcon(img_bbg_url);
+            ImageIcon ii5 = new ImageIcon(img_gameover_url);
             this.img_alien = ii1.getImage();
             this.img_ship = ii2.getImage();
             this.img_bullet = ii3.getImage();
             this.img_background = ii4.getImage();
+            this.img_gameover = ii5.getImage();
         }
     }
 
@@ -91,7 +92,8 @@ public class GameArea extends JPanel implements Observer {
     public void paint(Graphics g) {
         super.paint(g);
 
-        g.drawImage(this.img_background, 0, 0, null);
+        // Wallpaper
+        g.drawImage(this.img_background, 0, 0, MainInterface.GAME_W, MainInterface.GAME_H, null);
 
         // Alien
         Graphics2D g2d = (Graphics2D) g;
@@ -115,6 +117,12 @@ public class GameArea extends JPanel implements Observer {
             );
         }
 
+        if (this.gameover_flag) {
+            g2d.drawImage(
+                img_gameover, 0, 0, MainInterface.GAME_W, MainInterface.GAME_H, this
+            );
+        }
+
         Toolkit.getDefaultToolkit().sync();
         g.dispose();
     }
@@ -126,11 +134,9 @@ public class GameArea extends JPanel implements Observer {
             coordAlien = new Vector<Vector<Double>>();
             coordBullet = new Vector<Vector<Double>>();
             coordShip = new Vector<Double>();
-            Boolean ov = ((SpaceInvader) m).getOver();
 
-            if (ov) {
-                this.add(this.game_over_label); // FIXME do not display anything
-            }
+            this.gameover_flag = ((SpaceInvader) m).getOver();
+
             ArrayList<Alien> aliens = ((SpaceInvader) m).getAliens();
             for (Alien a : aliens) {
                 Vector<Double> tmp1 = new Vector<Double>();
