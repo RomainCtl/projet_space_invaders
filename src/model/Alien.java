@@ -7,7 +7,6 @@ public class Alien extends AutoEntity {
 
     public static int w = 43;
     public static int h = 29;
-    public int speed;
     private SpaceInvader instance;
 
     public Alien(SpaceInvader i, double x, double y, int speed) {

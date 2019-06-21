@@ -5,8 +5,6 @@ public class Bullet extends AutoEntity {
     public static int w = 12;
     public static int h = 23;
 
-    private int speed;
-
     public Bullet(double x, double y) {
         super(x, y, Bullet.w, Bullet.h, 10);
     }
