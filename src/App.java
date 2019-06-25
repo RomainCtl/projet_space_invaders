@@ -1,3 +1,4 @@
+
 import controller.SpaceInvader;
 
 public class App {
